@@ -5,7 +5,8 @@ import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
 
 class PostAdScreen extends StatefulWidget {
-  PostAdScreen({required  this.category, required this.subCategory,required this.icon});
+  PostAdScreen(
+      {required this.category, required this.subCategory, required this.icon});
   final String category;
   final String subCategory;
   final IconData icon;
@@ -14,14 +15,14 @@ class PostAdScreen extends StatefulWidget {
 }
 
 class _PostAdScreenState extends State<PostAdScreen> {
-  String locality ="Galle";
+  String locality = "Galle";
   String subLocality = "Hapugala";
 
   setCurrentLocation() async {
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high);
     List<Placemark> placemarks =
-    await placemarkFromCoordinates(position.latitude, position.longitude);
+        await placemarkFromCoordinates(position.latitude, position.longitude);
     print(placemarks.first.locality);
     setState(() {
       locality = placemarks.first.locality.toString();
@@ -105,37 +106,72 @@ class _PostAdScreenState extends State<PostAdScreen> {
                           style: TextStyle(fontSize: 18),
                         )),
                     Padding(
-                        padding: EdgeInsets.only(bottom: 8, left: 8),
-                        child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            children: [
-                        Text(locality + "->" + subLocality,style: TextStyle(fontSize: 16)),
-                        ElevatedButton(
-                          onPressed: () {
-                            setCurrentLocation();
-                          },
-                          child: Text("Select"),
-                          style: ButtonStyle(
-                            backgroundColor: MaterialStateProperty.resolveWith(
-                                getButtonColor),
-                            elevation: MaterialStateProperty.resolveWith(
-                                (getButtonElevation))),
+                      padding: EdgeInsets.only(bottom: 8, left: 8),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(locality + "->" + subLocality,
+                              style: TextStyle(fontSize: 16)),
+                          ElevatedButton(
+                            onPressed: () {
+                              setCurrentLocation();
+                            },
+                            child: Text("Select"),
+                            style: ElevatedButton.styleFrom(
+                            primary: kPrimaryColor),
                           )
-                          ],
-                        ),
+                        ],
+                      ),
+                    ),
+                    Padding(
+                      padding: EdgeInsets.all(8),
+                      child: Text(
+                        "Price:",
+                        style: TextStyle(fontSize: 18),
+                      ),
+                    ),
+                    TextField(
+                      decoration:
+                          kTextFieldDecoration.copyWith(prefixText: "Rs."),
+                      cursorColor: ksecondaryColor,
                     ),
                     Padding(
                         padding: EdgeInsets.all(8),
                         child: Text(
-                          "Price:",
+                          "Contact name:",
                           style: TextStyle(fontSize: 18),
-                        ),
-                    ),
+                        )),
                     TextField(
                       decoration: kTextFieldDecoration.copyWith(
-                        prefixText:"Rs."),
+                          hintText: "Enter a Name to Contact"),
                       cursorColor: ksecondaryColor,
                     ),
+                    Padding(
+                        padding: EdgeInsets.all(8),
+                        child: Text(
+                          "Contact phone:",
+                          style: TextStyle(fontSize: 18),
+                        )),
+                    TextField(
+                      decoration: kTextFieldDecoration.copyWith(
+                          hintText: "Enter a Phone No to Contact"),
+                      cursorColor: ksecondaryColor,
+                    ),
+                    SizedBox(
+                      height: 24,
+                    ),
+                    SizedBox(
+                      width: double.infinity,
+                      height: 44,
+                      child: ElevatedButton(
+                        onPressed: () {
+                          setCurrentLocation();
+                        },
+                        child: Text("Next",style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),),
+                        style: ElevatedButton.styleFrom(
+                            primary: kPrimaryColor),
+                      ),
+                    )
                   ],
                 ),
               ),
